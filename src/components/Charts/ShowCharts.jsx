@@ -1,7 +1,7 @@
-import { Chart } from 'react-chartjs-2';
+import { Bar, Doughnut, Line, Pie } from 'react-chartjs-2';
 import 'chart.js/auto'
 
-import { useState } from "react";
+import { useRef, useState } from "react";
 import Modal from "../modal/Modal";
 import Button from "../buttons/Buttons";
 import toast from "react-hot-toast";
@@ -10,6 +10,7 @@ import toast from "react-hot-toast";
 const ShowCharts = ({ data, chartType, chartOptions }) => {
     const [isloading, setIsLoading] = useState(false);
     const [isOpen, setIsOpen] = useState(false);
+    const chartRef = useRef(null);
 
     const [customOptions, setCustomOptions] = useState({
         borderColor: "",
@@ -36,6 +37,9 @@ const ShowCharts = ({ data, chartType, chartOptions }) => {
 
 
     const renderChart = () => {
+        if (chartRef.current) {
+            chartRef.current.destroy();
+          }
         if (!data) {
             return <div>Loading data...</div>;
         }
@@ -49,7 +53,20 @@ const ShowCharts = ({ data, chartType, chartOptions }) => {
 
             })),
         } : data
-        return < Chart type ={chartType} options={chartOptions} data = { mergedData } />
+
+
+        switch (chartType) {
+            case 'bar':
+              return <Bar data={mergedData} options={chartOptions} />;
+            case 'line':
+              return <Line data={mergedData} options={chartOptions} />;
+            case 'pie':
+              return <Pie data={mergedData} options={chartOptions} />;
+            case 'doughnut':
+              return <Doughnut  data={mergedData} options={chartOptions} />;
+            default:
+              return <div>Invalid chart type</div>;
+          }
     };
 
     const onOpen = () => {
