@@ -6,44 +6,69 @@ import Modal from "../modal/Modal";
 import Button from "../buttons/Buttons";
 import toast from "react-hot-toast";
 
-
+/**
+ * ShowCharts Component
+ *
+ * The ShowCharts component displays a chart based on provided data and chart type.
+ * It allows users to customize the chart's appearance, such as border color and width.
+ *
+ * @param {object} data - Chart data to be displayed.
+ * @param {string} chartType - Type of chart to render (e.g., "bar", "line", "pie", "doughnut").
+ * @param {object} chartOptions - Options for configuring the chart's appearance and behavior.
+ */
 const ShowCharts = ({ data, chartType, chartOptions }) => {
     const [isloading, setIsLoading] = useState(false);
     const [isOpen, setIsOpen] = useState(false);
+    const [customBackgroundColor, setCustomBackgroundColor] = useState(false);
+
+
+    // Ref for chart rendering
     const chartRef = useRef(null);
 
     const [customOptions, setCustomOptions] = useState({
         borderColor: "",
         borderWidth: null,
     });
-    const [customBackgroundColor, setCustomBackgroundColor] = useState(false);
 
-    const onSubmit = (data) => {
-        setIsLoading(true)
-        setCustomBackgroundColor(true);
-        console.log(data)
-        console.log(data.target.borderColor.value, data.target.borderWidth.value);
+
+    // Handle form submission to customize the chart
+    const onSubmit = (e) => {
+        e.preventDefault()
+        setIsLoading(true);
+      
+        const borderColor = e.target.borderColor.value;
+        const borderWidth = e.target.borderWidth.value;
+
+        if (borderColor && !borderWidth) {
+              setIsLoading(false);
+              toast.error("Please specify  a border width.");
+              return;
+        }
+      
+        // Set custom options for the chart
         setCustomOptions(() => ({
-            borderColor: data.target.borderColor.value,
-            borderWidth: data.target.borderWidth.value,
-
+          borderColor: borderColor,
+          borderWidth: borderWidth,
         }));
+        setCustomBackgroundColor(true)
+        renderChart();
+        setIsLoading(false);
+        onClose();
+        toast.success("Chart is customized successfully");
+      };
 
-        renderChart()
-        setIsLoading(false)
-        onClose()
-        toast.success("Chart is customised successfully")
-    };
-
-
+    // Function to render the chart with custom options
     const renderChart = () => {
+        // Check if the chartRef exists and destroy it to prevent duplicates
         if (chartRef.current) {
             chartRef.current.destroy();
-          }
+        }
+
+        // Check if data exists
         if (!data) {
             return <div>Loading data...</div>;
         }
-
+        // Merge custom options with data
         const mergedData = customBackgroundColor ? {
             ...data,
             datasets: data?.datasets?.map((dataset) => ({
@@ -57,18 +82,20 @@ const ShowCharts = ({ data, chartType, chartOptions }) => {
 
         switch (chartType) {
             case 'bar':
-              return <Bar data={mergedData} options={chartOptions} />;
+                return <Bar data={mergedData} options={chartOptions} />;
             case 'line':
-              return <Line data={mergedData} options={chartOptions} />;
+                return <Line data={mergedData} options={chartOptions} />;
             case 'pie':
-              return <Pie data={mergedData} options={chartOptions} />;
+                return <Pie data={mergedData} options={chartOptions} />;
             case 'doughnut':
-              return <Doughnut  data={mergedData} options={chartOptions} />;
+                return <Doughnut data={mergedData} options={chartOptions} />;
             default:
-              return <div>Invalid chart type</div>;
-          }
+                return <div>Invalid chart type</div>;
+        }
     };
 
+
+     // Handle modal
     const onOpen = () => {
         setIsOpen(true)
     }
@@ -77,6 +104,7 @@ const ShowCharts = ({ data, chartType, chartOptions }) => {
         setIsOpen(false)
     }
 
+// Content for the modal body
     const bodyContent = (
         <form onSubmit={onSubmit}>
             <div className="flex flex-col gap-4">
@@ -118,10 +146,11 @@ const ShowCharts = ({ data, chartType, chartOptions }) => {
     )
 
     return (
-        
+
         <>
             <div className=" w-auto md:w-96 lg:w-[29rem] xl:w-[23rem] 2xl:w-[31rem]  h-auto   ">
                 <div className='shadow-md shadow-gray-600 rounded-lg hover:bg-gray-100 transition flex flex-col justify-center items-center'>
+                    {/* rendering Chart */}
                     {renderChart()}
                 </div>
                 <div className='flex items-center justify-center mt-4'>

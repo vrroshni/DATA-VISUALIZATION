@@ -4,19 +4,19 @@ import { AiOutlineLineChart } from 'react-icons/ai';
 
 export const links = [
   {
-    id: 1,
-    name: 'Image Slider',
-    link: '/'
+      id: 1,
+      name: 'Image Slider',
+      link: 'https://image-slider-red.vercel.app/'
   },
   {
-    id: 2,
-    name: 'D3 Project',
-    link: '/D3 Project'
+      id: 2,
+      name: 'D3 Project',
+      link: 'https://data-visualization-xi.vercel.app/'
   },
   {
-    id: 3,
-    name: 'User Interface',
-    link: '/User Interface'
+      id: 3,
+      name: 'User Interface',
+      link: 'https://user-interface-d285p410d-vrroshni.vercel.app/'
   },
 
 ]
@@ -29,37 +29,6 @@ export const barchartOptions = {
       text: 'Bar Chart'
     }
   },
-  // scales: {
-  // 	y: {
-  // 		ticks: {
-  // 			display: false,
-  // 		},
-  // 		grid: {
-  // 			display: false,
-  // 			drawOnChartArea: false,
-  // 		},
-  // 		border: {
-  // 			display: false,
-  // 		},
-  // 	},
-  // 	x: {
-  // 		ticks: {
-  // 			color: "hsl(28,10%,53%)",
-  // 			font: {
-  // 				size: 14,
-  // 				family: "'DM Sans', sans-serif",
-  // 			},
-  // 		},
-  // 		grid: {
-  // 			display: false,
-  // 			drawOnChartArea: false,
-  // 		},
-  // 		border: {
-  // 			display: false,
-  // 		},
-  // 	},
-
-  // },
 };
 
 

@@ -1,5 +1,7 @@
 import React from 'react'
 
+
+//for custom headings
 const Heading = ({ className, text }) => {
     return (
         <div className='w-full mx-auto py-2 flex items-center justify-center md:justify-start overflow-hidden'>

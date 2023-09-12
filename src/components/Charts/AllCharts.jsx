@@ -2,6 +2,15 @@ import React from 'react'
 import ShowCharts from './ShowCharts'
 import { data, data1, options } from '../../utils/data'
 
+
+/**
+ * AllCharts Component
+ *
+ * The AllCharts component displays a collection of different chart types.
+ * It provides options to customize each chart individually.
+ */
+
+
 const AllCharts = () => {
     return (
         <div  className='flex w-full justify-center items-center'>

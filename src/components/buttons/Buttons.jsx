@@ -1,5 +1,7 @@
 import React from "react";
 
+
+//to render a button with custom properties
 const Button = ({
     type = "button",
     label,

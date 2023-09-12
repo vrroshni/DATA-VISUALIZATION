@@ -4,6 +4,8 @@ import { IoMdClose } from "react-icons/io";
 import Button from "../buttons/Buttons";
 import Heading from "../Heading/Heading";
 
+
+// provides a modal dialog for displaying content, such as forms, messages, or alerts
 const Modal = ({
   isOpen,
   title,
