@@ -16,10 +16,17 @@ import toast from "react-hot-toast";
  * @param {string} chartType - Type of chart to render (e.g., "bar", "line", "pie", "doughnut").
  * @param {object} chartOptions - Options for configuring the chart's appearance and behavior.
  */
+
+
 const ShowCharts = ({ data, chartType, chartOptions }) => {
     const [isloading, setIsLoading] = useState(false);
     const [isOpen, setIsOpen] = useState(false);
+    const [title, setTitle] = useState(chartOptions.plugins.title.text);
+
     const [customBackgroundColor, setCustomBackgroundColor] = useState(false);
+
+    console.log(chartOptions.plugins.title.text, "beforeeeeeeee")
+    console.log(title, "beforeeeeeeee")
 
 
     // Ref for chart rendering
@@ -35,27 +42,33 @@ const ShowCharts = ({ data, chartType, chartOptions }) => {
     const onSubmit = (e) => {
         e.preventDefault()
         setIsLoading(true);
-      
+
         const borderColor = e.target.borderColor.value;
         const borderWidth = e.target.borderWidth.value;
 
         if (borderColor && !borderWidth) {
-              setIsLoading(false);
-              toast.error("Please specify  a border width.");
-              return;
+            setIsLoading(false);
+            toast.error("Please specify  a border width.");
+            return;
         }
-      
+
+        if (!title) {
+            toast.error("Please specify  a Chart title");
+        }
+
+        chartOptions.plugins.title.text = title 
+        
         // Set custom options for the chart
         setCustomOptions(() => ({
-          borderColor: borderColor,
-          borderWidth: borderWidth,
+            borderColor: borderColor,
+            borderWidth: borderWidth,
         }));
         setCustomBackgroundColor(true)
         renderChart();
         setIsLoading(false);
         onClose();
         toast.success("Chart is customized successfully");
-      };
+    };
 
     // Function to render the chart with custom options
     const renderChart = () => {
@@ -80,6 +93,7 @@ const ShowCharts = ({ data, chartType, chartOptions }) => {
         } : data
 
 
+       
         switch (chartType) {
             case 'bar':
                 return <Bar data={mergedData} options={chartOptions} />;
@@ -95,7 +109,7 @@ const ShowCharts = ({ data, chartType, chartOptions }) => {
     };
 
 
-     // Handle modal
+    // Handle modal
     const onOpen = () => {
         setIsOpen(true)
     }
@@ -104,7 +118,7 @@ const ShowCharts = ({ data, chartType, chartOptions }) => {
         setIsOpen(false)
     }
 
-// Content for the modal body
+    // Content for the modal body
     const bodyContent = (
         <form onSubmit={onSubmit}>
             <div className="flex flex-col gap-4">
@@ -118,6 +132,20 @@ const ShowCharts = ({ data, chartType, chartOptions }) => {
                         class="bg-gray-50 border  text-gray-900 text-sm rounded-lg  block w-full p-2.5 focus:ring-blue-500 focus:border-blue-500"
                         disabled={isloading}
                         placeholder={"Change the Border Color"}
+                    />
+                </div>
+                <div>
+                    <label class="block mb-2 text-sm font-medium text-textcolor">
+                        Chart Title
+                    </label>
+                    <input
+                        type="text"
+                        value={title}
+                        onChange={(e) => setTitle(e.target.value)}
+                        name="borderColor"
+                        class="bg-gray-50 border  text-gray-900 text-sm rounded-lg  block w-full p-2.5 focus:ring-blue-500 focus:border-blue-500"
+                        disabled={isloading}
+                        placeholder={"Change the Title"}
                     />
                 </div>
                 <div>

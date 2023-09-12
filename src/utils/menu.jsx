@@ -55,6 +55,8 @@ const menuitems = [
  */
 
 export const ChartMenu = ({classnames="hidden md:w-16 h-80 right-2 absolute top-28 md:flex flex-col", selectedChartType, onChartTypeChange }) => {
+
+
   return (
     <div className={`${classnames} bg-slate-300 rounded-full px-4   justify-evenly items-center border border-white border-opacity-40 bg-opacity-80 shadow-lg shadow-black/[0.3] backdrop-blur-[0.5rem] text-textcolor`}>
       {menuitems.map(({ id, charttype, icon }) => (

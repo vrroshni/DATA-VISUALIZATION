@@ -4,19 +4,19 @@ import { AiOutlineLineChart } from 'react-icons/ai';
 
 export const links = [
   {
-      id: 1,
-      name: 'Image Slider',
-      link: 'https://image-slider-red.vercel.app/'
+    id: 1,
+    name: 'Image Slider',
+    link: 'https://image-slider-red.vercel.app/'
   },
   {
-      id: 2,
-      name: 'D3 Project',
-      link: 'https://data-visualization-xi.vercel.app/'
+    id: 2,
+    name: 'D3 Project',
+    link: 'https://data-visualization-xi.vercel.app/'
   },
   {
-      id: 3,
-      name: 'User Interface',
-      link: 'https://user-interface-d285p410d-vrroshni.vercel.app/'
+    id: 3,
+    name: 'User Interface',
+    link: 'https://user-interface-d285p410d-vrroshni.vercel.app/'
   },
 
 ]
@@ -50,7 +50,7 @@ export const barChartData = {
   ],
 };
 
-export const options = {
+export const options1 = {
   responsive: true,
   plugins: {
     legend: {
@@ -58,7 +58,43 @@ export const options = {
     },
     title: {
       display: true,
-      text: 'Chart.js Line Chart',
+      text: 'Bar Chart',
+    },
+  },
+};
+export const options2 = {
+  responsive: true,
+  plugins: {
+    legend: {
+      position: 'top',
+    },
+    title: {
+      display: true,
+      text: 'Line Chart',
+    },
+  },
+};
+export const options3 = {
+  responsive: true,
+  plugins: {
+    legend: {
+      position: 'top',
+    },
+    title: {
+      display: true,
+      text: 'Pie Chart',
+    },
+  },
+};
+export const options4 = {
+  responsive: true,
+  plugins: {
+    legend: {
+      position: 'top',
+    },
+    title: {
+      display: true,
+      text: 'Doughnut Chart',
     },
   },
 };
