@@ -21,7 +21,7 @@ import toast from "react-hot-toast";
 const ShowCharts = ({ data, chartType, chartOptions }) => {
     const [isloading, setIsLoading] = useState(false);
     const [isOpen, setIsOpen] = useState(false);
-    const [title, setTitle] = useState(chartOptions.plugins.title.text);
+    const [title, setTitle] = useState("");
 
     const [customBackgroundColor, setCustomBackgroundColor] = useState(false)
 
@@ -39,9 +39,12 @@ const ShowCharts = ({ data, chartType, chartOptions }) => {
     const onSubmit = (e) => {
         e.preventDefault()
         setIsLoading(true);
-
         const borderColor = e.target.borderColor.value;
-        const borderWidth = e.target.borderWidth.value;
+        const borderWidth = e.target.borderWidth.value || 1;
+        const title = e.target.title.value;
+
+
+
 
         if (borderColor && !borderWidth) {
             setIsLoading(false);
@@ -55,16 +58,20 @@ const ShowCharts = ({ data, chartType, chartOptions }) => {
             return;
         }
 
-        chartOptions.plugins.title.text = title 
-        
+        console.log(chartOptions.plugins.title.text, "before")
+        chartOptions.plugins.title.text = title
+        console.log(chartOptions.plugins.title.text, "after")
+
+
         // Set custom options for the chart
         setCustomOptions(() => ({
             borderColor: borderColor,
             borderWidth: borderWidth,
         }));
-       
+
         setIsLoading(false);
         setCustomBackgroundColor(true)
+        renderChart();
         onClose();
         toast.success("Chart is customized successfully");
     };
@@ -92,7 +99,7 @@ const ShowCharts = ({ data, chartType, chartOptions }) => {
         } : data
 
 
-       
+
         switch (chartType) {
             case 'bar':
                 return <Bar data={mergedData} options={chartOptions} />;
@@ -110,6 +117,7 @@ const ShowCharts = ({ data, chartType, chartOptions }) => {
 
     // Handle modal
     const onOpen = () => {
+        setTitle(chartOptions.plugins.title.text)
         setIsOpen(true)
     }
 
@@ -117,17 +125,8 @@ const ShowCharts = ({ data, chartType, chartOptions }) => {
         setIsOpen(false)
     }
 
-    // Content for the modal body
 
-    useEffect(() => {
-        renderChart();
 
-        return () => {
-            setCustomBackgroundColor(false)
-          }
-    }, [chartType,customBackgroundColor])
-
-    
     const bodyContent = (
         <form onSubmit={onSubmit}>
             <div className="flex flex-col gap-4">
@@ -137,6 +136,7 @@ const ShowCharts = ({ data, chartType, chartOptions }) => {
                     </label>
                     <input
                         type="color"
+                        defaultValue={1}
                         name="borderColor"
                         class="bg-gray-50 border  text-gray-900 text-sm rounded-lg  block w-full p-2.5 focus:ring-blue-500 focus:border-blue-500"
                         disabled={isloading}
@@ -149,12 +149,10 @@ const ShowCharts = ({ data, chartType, chartOptions }) => {
                     </label>
                     <input
                         type="text"
-                        value={title}
-                        onChange={(e) => setTitle(e.target.value)}
                         name="title"
                         class="bg-gray-50 border  text-gray-900 text-sm rounded-lg  block w-full p-2.5 focus:ring-blue-500 focus:border-blue-500"
                         disabled={isloading}
-                        placeholder={"Change the Title"}
+                        placeholder={`${title} - Change Title here` }
                     />
                 </div>
                 <div>
@@ -186,7 +184,7 @@ const ShowCharts = ({ data, chartType, chartOptions }) => {
 
         <>
             <div className=" w-auto md:w-96 lg:w-[29rem] xl:w-[23rem] 2xl:w-[31rem]  h-auto   ">
-                <div className={`shadow-md shadow-gray-600 rounded-lg hover:bg-gray-100 transition flex flex-col justify-center items-center  py-3 ${ (chartType==='bar' || chartType==='line') && "min-h-[19rem]"}`}>
+                <div className={`shadow-md shadow-gray-600 rounded-lg hover:bg-gray-100 transition flex flex-col justify-center items-center  py-3 ${(chartType === 'bar' || chartType === 'line') && "min-h-[19rem]"}`}>
                     {/* rendering Chart */}
                     {renderChart()}
                 </div>
