@@ -1,7 +1,7 @@
 import { Bar, Doughnut, Line, Pie } from 'react-chartjs-2';
 import 'chart.js/auto'
 
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Modal from "../modal/Modal";
 import Button from "../buttons/Buttons";
 import toast from "react-hot-toast";
@@ -23,10 +23,7 @@ const ShowCharts = ({ data, chartType, chartOptions }) => {
     const [isOpen, setIsOpen] = useState(false);
     const [title, setTitle] = useState(chartOptions.plugins.title.text);
 
-    const [customBackgroundColor, setCustomBackgroundColor] = useState(false);
-
-    console.log(chartOptions.plugins.title.text, "beforeeeeeeee")
-    console.log(title, "beforeeeeeeee")
+    const [customBackgroundColor, setCustomBackgroundColor] = useState(false)
 
 
     // Ref for chart rendering
@@ -53,7 +50,9 @@ const ShowCharts = ({ data, chartType, chartOptions }) => {
         }
 
         if (!title) {
+            setIsLoading(false);
             toast.error("Please specify  a Chart title");
+            return;
         }
 
         chartOptions.plugins.title.text = title 
@@ -63,9 +62,9 @@ const ShowCharts = ({ data, chartType, chartOptions }) => {
             borderColor: borderColor,
             borderWidth: borderWidth,
         }));
-        setCustomBackgroundColor(true)
-        renderChart();
+       
         setIsLoading(false);
+        setCustomBackgroundColor(true)
         onClose();
         toast.success("Chart is customized successfully");
     };
@@ -119,6 +118,16 @@ const ShowCharts = ({ data, chartType, chartOptions }) => {
     }
 
     // Content for the modal body
+
+    useEffect(() => {
+        renderChart();
+
+        return () => {
+            setCustomBackgroundColor(false)
+          }
+    }, [chartType,customBackgroundColor])
+
+    
     const bodyContent = (
         <form onSubmit={onSubmit}>
             <div className="flex flex-col gap-4">
@@ -142,7 +151,7 @@ const ShowCharts = ({ data, chartType, chartOptions }) => {
                         type="text"
                         value={title}
                         onChange={(e) => setTitle(e.target.value)}
-                        name="borderColor"
+                        name="title"
                         class="bg-gray-50 border  text-gray-900 text-sm rounded-lg  block w-full p-2.5 focus:ring-blue-500 focus:border-blue-500"
                         disabled={isloading}
                         placeholder={"Change the Title"}
@@ -177,7 +186,7 @@ const ShowCharts = ({ data, chartType, chartOptions }) => {
 
         <>
             <div className=" w-auto md:w-96 lg:w-[29rem] xl:w-[23rem] 2xl:w-[31rem]  h-auto   ">
-                <div className='shadow-md shadow-gray-600 rounded-lg hover:bg-gray-100 transition flex flex-col justify-center items-center'>
+                <div className={`shadow-md shadow-gray-600 rounded-lg hover:bg-gray-100 transition flex flex-col justify-center items-center  py-3 ${ (chartType==='bar' || chartType==='line') && "min-h-[19rem]"}`}>
                     {/* rendering Chart */}
                     {renderChart()}
                 </div>

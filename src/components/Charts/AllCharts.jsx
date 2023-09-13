@@ -17,8 +17,8 @@ const AllCharts = () => {
             <div className=' grid grid-cols-1 xl:grid-cols-2  gap-8  w-full md:w-auto mt-10' >
                 <ShowCharts data={data} chartType="bar" chartOptions={options1} />
                 <ShowCharts data={data} chartType="line" chartOptions={options2} />
-                <ShowCharts data={data1} chartType="doughnut" chartOptions={options3} />
-                <ShowCharts data={data1} chartType="pie" chartOptions={options4} />
+                <ShowCharts data={data1} chartType="doughnut" chartOptions={options4} />
+                <ShowCharts data={data1} chartType="pie" chartOptions={options3} />
             </div>
         </div>
     )
