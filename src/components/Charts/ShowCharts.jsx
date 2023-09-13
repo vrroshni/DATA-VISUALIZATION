@@ -41,7 +41,7 @@ const ShowCharts = ({ data, chartType, chartOptions }) => {
         setIsLoading(true);
         const borderColor = e.target.borderColor.value;
         const borderWidth = e.target.borderWidth.value || 1;
-        const title = e.target.title.value;
+        const title = e.target.title.value || chartOptions.plugins.title.text ;
 
 
 
