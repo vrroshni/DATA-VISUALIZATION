@@ -18,7 +18,7 @@ import toast from "react-hot-toast";
  */
 
 
-const ShowCharts = ({ data, chartType, chartOptions }) => {
+const ShowCharts = ({ data, chartType, chartOptions ,all=true}) => {
     const [isloading, setIsLoading] = useState(false);
     const [isOpen, setIsOpen] = useState(false);
     const [title, setTitle] = useState("");
@@ -40,7 +40,7 @@ const ShowCharts = ({ data, chartType, chartOptions }) => {
         e.preventDefault()
         setIsLoading(true);
         const borderColor = e.target.borderColor.value;
-        const borderWidth = e.target.borderWidth.value || 1;
+        const borderWidth = e.target.borderWidth.value ;
         const title = e.target.title.value || chartOptions.plugins.title.text ;
 
 
@@ -58,9 +58,7 @@ const ShowCharts = ({ data, chartType, chartOptions }) => {
             return;
         }
 
-        console.log(chartOptions.plugins.title.text, "before")
         chartOptions.plugins.title.text = title
-        console.log(chartOptions.plugins.title.text, "after")
 
 
         // Set custom options for the chart
@@ -188,11 +186,11 @@ const ShowCharts = ({ data, chartType, chartOptions }) => {
                     {/* rendering Chart */}
                     {renderChart()}
                 </div>
-                <div className='flex items-center justify-center mt-4'>
+                { all &&  <div className='flex items-center justify-center mt-4'>
                     <div className='w-40'>
                         <Button label={"Customize Chart"} onClick={onOpen} />
                     </div>
-                </div>
+                </div>}
 
             </div>
             <Modal

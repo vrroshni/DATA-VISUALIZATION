@@ -47,7 +47,7 @@ const IndividualChart = () => {
         <ChartMenu selectedChartType={type} classnames={" md:hidden  md:h-16  w-full flex "} onChartTypeChange={setOptionsType} />
 
         {/* Display the selected chart */}
-        <ShowCharts data={data} chartType={type} chartOptions={options} />
+        <ShowCharts data={data} chartType={type} chartOptions={options} all={false} />
 
         {/* Display chart type menu for desktop */}
         <ChartMenu selectedChartType={type} onChartTypeChange={setOptionsType} />
